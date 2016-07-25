@@ -36,11 +36,7 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        String [] forecast={"Movie1","Movie2","Movie3","Movie4"};
 
-
-        List<String> array =new ArrayList<String>(Arrays.asList(forecast));
-        ArrayAdapter<String> m=new ArrayAdapter<String>(getActivity(),R.layout.listview_text,R.id.textView,array);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         ListView listView =  (ListView) rootView.findViewById(R.id.listView);
