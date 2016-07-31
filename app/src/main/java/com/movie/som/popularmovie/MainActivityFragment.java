@@ -73,8 +73,8 @@ public class MainActivityFragment extends Fragment {
         int id=item.getItemId();
         if (id == R.id.refresh)
         {
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("94043");
+            FetchMovieData movieData = new FetchMovieData();
+            movieData.execute("94043");
             Log.v("myin","myyyyyyyyyy");
             return true;
         }
@@ -101,12 +101,12 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    public class FetchMovieData extends AsyncTask<String, Void, String[]> {
 
-        private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+        private final String LOG_TAG = FetchMovieData.class.getSimpleName();
 
 
-        private String[] getWeatherDataFromJson(String forecastJsonStr)
+        private String[] getMovieDataFromJson(String MovieJsonStr)
                 throws JSONException {
 
             // These are the names of the JSON objects that need to be extracted.
@@ -114,27 +114,25 @@ public class MainActivityFragment extends Fragment {
             final String id = "id";
 
 
-            JSONObject forecastJson = new JSONObject(forecastJsonStr);
-            JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
-int k=weatherArray.length();
+            JSONObject MovieJson = new JSONObject(MovieJsonStr);
+            JSONArray MovieArray = MovieJson.getJSONArray(OWM_LIST);
+            int k=MovieArray.length();
 
             String[] resultStrs=new String[k] ;
-            for(int i = 0; i < weatherArray.length(); i++) {
+            for(int i = 0; i < MovieArray.length(); i++) {
 
 
-                // Get the JSON object representing the day
-                JSONObject dayForecast = weatherArray.getJSONObject(i);
+                // Get the JSON object representing the movie
+                JSONObject moviearraydata = MovieArray.getJSONObject(i);
 
-
-                JSONObject temperatureObject = dayForecast;
-               int idvalue = temperatureObject.getInt(id);
+               int idvalue = moviearraydata.getInt(id);
 
 
                 resultStrs[i] =""+idvalue;
             }
 
             for (String s : resultStrs) {
-                Log.v(LOG_TAG, "Forecast entry: " + s);
+                Log.v(LOG_TAG, "Movie id: " + s);
             }
             return resultStrs;
 
@@ -167,11 +165,9 @@ int k=weatherArray.length();
             BufferedReader reader = null;
 
             // Will contain the raw JSON response as a string.
-            String forecastJsonStr = null;
+            String MovieJsonStr = null;
 
             String format = "json";
-            String units = "metric";
-            int numDays = 7;
 
 
 
@@ -179,32 +175,15 @@ int k=weatherArray.length();
             try {
 
 
-                final String FORECAST_BASE_URL2 =
+                final String Movie_BASE_URL2 =
                         "https://api.themoviedb.org/3/movie/popular?api_key=e822607761aa05893b4c213f5b8df335";
 
 
-                //https://api.themoviedb.org/3/movie/550?api_key=e822607761aa05893b4c213f5b8df335
-                /*final String QUERY_PARAM = "q";
-                final String FORMAT_PARAM = "mode";
-                final String UNITS_PARAM = "units";
-                final String DAYS_PARAM = "cnt";
-                final String APPID_PARAM = "APPID";
 
-                Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                        .appendQueryParameter(QUERY_PARAM, params[0])
-                        .appendQueryParameter(FORMAT_PARAM, format)
-                        .appendQueryParameter(UNITS_PARAM, units)
-                        .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                        .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
-                        .build();
-*/
-               /* URL url = new URL(builtUri.toString());
 
-                Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-*/
-                URL url = new URL(FORECAST_BASE_URL2);
+                URL url = new URL(Movie_BASE_URL2);
 
-                Log.v(LOG_TAG, "Built URI " + FORECAST_BASE_URL2);
+                Log.v(LOG_TAG, "Built URI " + Movie_BASE_URL2);
 
 
 
@@ -222,7 +201,7 @@ int k=weatherArray.length();
 
 
 
-                // Create the request to OpenWeatherMap, and open the connection
+                // Create the request to themoviedb, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
@@ -248,12 +227,12 @@ int k=weatherArray.length();
                     // Stream was empty.  No point in parsing.
                     return null;
                 }
-                forecastJsonStr = buffer.toString();
+                MovieJsonStr = buffer.toString();
 
 
 
-                Log.v("forcast",""+forecastJsonStr);
-                Log.v(LOG_TAG, "Forecast string: " + forecastJsonStr);
+                Log.v("Movie",""+MovieJsonStr);
+                Log.v(LOG_TAG, "Movie string: " + MovieJsonStr);
 
 
             } catch (IOException e) {
@@ -275,7 +254,7 @@ int k=weatherArray.length();
             }
 
             try {
-                return getWeatherDataFromJson(forecastJsonStr);
+                return getMovieDataFromJson(MovieJsonStr);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
