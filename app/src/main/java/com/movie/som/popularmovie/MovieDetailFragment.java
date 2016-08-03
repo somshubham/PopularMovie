@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class MovieDetailFragment extends Fragment {
 
 
@@ -30,7 +28,7 @@ public class MovieDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        // The detail Activity called via intent.  Inspect the intent for forecast data.
+
         Intent intent = getActivity().getIntent();
 
             data = intent.getStringExtra("title");
@@ -48,7 +46,6 @@ public class MovieDetailFragment extends Fragment {
 
            data = intent.getStringExtra("url");
         ImageView imageView=(ImageView)rootView.findViewById(R.id.movie_poster);
-        imageView.setImageResource(R.drawable.cupcake);
         Picasso.with(getActivity()).load(data).into(imageView);
         /*  Uri url= Uri.parse(data);
         Picasso.load(url).into(imageView);*/

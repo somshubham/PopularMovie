@@ -35,23 +35,10 @@ import java.net.URL;
 public class MainActivityFragment extends Fragment {
 
 
-    MovieAdapter movieAdapter;
     MovieAdapter mAdapter;
     static String[] string1;
     GridView gridView;
     String[] urls,ids,overviews,vote_averages,release_dates,titles;
-
-
-/*
-    final String OWM_LIST = "results";
-    final String poster_path = "poster_path";
-    final String id = "id";
-    final String adult = "adulth";
-    final String overview = "overview";
-    final String release_date = "release_date";
-    final String popularity = "popularity";
-    final String title = "title";
-    final String vote_average="vote_average";*/
     public MainActivityFragment() {
 
     }
@@ -79,7 +66,7 @@ public class MainActivityFragment extends Fragment {
         {
             FetchMovieData movieData = new FetchMovieData();
             movieData.execute("top_rated");
-            Log.v("myin","myyyyyyyyyy");
+            Log.v("myin","Refreshing the movies");
 
             return true;
         }
@@ -169,8 +156,8 @@ public class MainActivityFragment extends Fragment {
                 // Get the JSON object representing the movie
                 JSONObject moviearraydata = MovieArray.getJSONObject(i);
                 int int_variable;
-              // int idvalue = moviearraydata.getInt(id);
-               String idvalue = moviearraydata.getString(poster_path);
+
+                String idvalue = moviearraydata.getString(poster_path);
                 urls[i]=("http://image.tmdb.org/t/p/w185" +idvalue);
                 idvalue = moviearraydata.getString(overview);
                 overviews[i]=""+idvalue;
@@ -191,10 +178,6 @@ public class MainActivityFragment extends Fragment {
 
             for (String s : urls) {
                 Log.v(LOG_TAG, "Movie id: " + s);
-
-//mForecastAdapter.add(s);
-
-
             }
             return urls;
 
@@ -304,8 +287,7 @@ public class MainActivityFragment extends Fragment {
 
         protected void onPostExecute(String[] strings) {
 
-         mAdapter = new MovieAdapter(getActivity(),strings);
-           // MovieAdapter.replace(strings) ;
+            mAdapter = new MovieAdapter(getActivity(),strings);
             gridView.setAdapter(mAdapter);
 
 
