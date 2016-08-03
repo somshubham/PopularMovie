@@ -176,7 +176,7 @@ public class MainActivityFragment extends Fragment {
 
 
                 final String Movie_BASE_URL2 =
-                        "https://api.themoviedb.org/3/movie/popular?api_key=e822607761aa05893b4c213f5b8df335";
+                        "https://api.themoviedb.org/3/movie/popular?api_key="+BuildConfig.Movie_db_key;
 
 
 
