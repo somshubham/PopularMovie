@@ -1,71 +1,67 @@
 package com.movie.som.popularmovie;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+public class MovieAdapter extends BaseAdapter {
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+    private Context mContext;
 
-class MovieAdapter extends BaseAdapter {
-    private final String LOG_TAG = MovieAdapter.class.getSimpleName();
-    private final ThreadLocal<Context> context;
-    private final List<String> urls = new ArrayList<String>();
+    private String[] mThumbIds;
 
-    public MovieAdapter(final Context context) {
-        this.context = new ThreadLocal<Context>() {
-            @Override
-            protected Context initialValue() {
-                return context;
-            }
-        };
-        Collections.addAll(urls);
-    }
+    public MovieAdapter(Context c, String[] str2) {
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = new ImageView(context.get());
-        }
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView1);;
-
-
-        String url = getItem(position);
-
-        Log.e(LOG_TAG," URL "+url);
-
-        Picasso.with(context.get()).load(url).into(imageView);
-
-        return convertView;
+        mContext = c;
+        mThumbIds = str2;
     }
 
     @Override
     public int getCount() {
-        return urls.size();
+        if (mThumbIds != null) {
+            return mThumbIds.length;
+        } else {
+            return 0;
+        }
     }
 
     @Override
-    public String getItem(int position) {
-        return urls.get(position);
+    public Object getItem(int position) {
+        return position;
+       // return null;
     }
 
     @Override
     public long getItemId(int position) {
+
         return position;
+
+      //  return 0;
     }
 
 
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
 
-    public void replace(List<String> urls) {
-        this.urls.clear();
-        this.urls.addAll(urls);
+        if (convertView == null) {
+            // if it's not recycled, initialize some attributes
+            imageView = new ImageView(mContext);
+            imageView.setLayoutParams(new GridView.LayoutParams(550,550));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //imageView.setPadding(5, 5, 5, 5);
+        } else {
+            imageView = (ImageView) convertView;
+        }
 
+        Picasso.with(mContext).load(mThumbIds[position]).into(imageView);
+
+        //imageView.setImageResource(Integer.parseInt(mThumbIds[position]));
+        return imageView;
     }
 }
