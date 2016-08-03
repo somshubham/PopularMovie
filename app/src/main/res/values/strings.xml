@@ -2,4 +2,38 @@
     <string name="app_name">Popular Movie</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_movie_detail">MovieDetail</string>
+
+
+
+
+    <string name="pref_top_rated">top_rated</string>
+    <string name="pref_popular">popular</string>
+    <string name="pref_movie" translatable="false">popular</string>
+    <string name="pref_label" translatable="false">Sort By</string>
+    <string name="title_activity_settings" translatable="false">Setting</string>
+
+
+    <!-- Label for the Movie -->
+    <string name="pref_units_label">Sort Movies By</string>
+
+    <!-- Label for Option -->
+    <string name="pref_movie_label_top_rated">Top Rated</string>
+    <string name="pref_movie_label_popular">Popular</string>
+
+    <!-- Key name for temperature unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
+  <!--<string name="pref_units_key" translatable="false">units</string>-->
+
+    <!-- Value in SharedPreferences for metric temperature unit option [CHAR LIMIT=NONE] -->
+
+
+    <string name="pref_movie_popular" translatable="false">popular</string>
+
+    <!-- Value in SharedPreferences for imperial temperature unit option [CHAR LIMIT=NONE] -->
+    <string name="pref_movie_top_rated" translatable="false">top_rated</string>
+
+    <string name="release_date">Release Date :</string>
+    <string name="user_rating">User Rating :</string>
+    <string name="overview">A plot synopsis :</string>
+
+
 </resources>

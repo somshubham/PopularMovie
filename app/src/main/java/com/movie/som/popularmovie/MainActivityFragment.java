@@ -2,7 +2,9 @@ package com.movie.som.popularmovie;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -57,7 +59,17 @@ public class MainActivityFragment extends Fragment {
         inflater.inflate(R.menu.menu_main,menu);
     }
 
+    private void updateMovie() {
+        FetchMovieData movieTask = new FetchMovieData();
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String m = prefs.getString(getString(R.string.pref_movie),getString(R.string.pref_popular));
+        movieTask.execute(m);
+    }
+    public void onStart() {
+        super.onStart();
+        updateMovie();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -65,9 +77,17 @@ public class MainActivityFragment extends Fragment {
         if (id == R.id.refresh)
         {
             FetchMovieData movieData = new FetchMovieData();
-            movieData.execute("top_rated");
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String m = prefs.getString(getString(R.string.pref_movie),getString(R.string.pref_popular));
+            movieData.execute(m);
             Log.v("myin","Refreshing the movies");
 
+            return true;
+        }
+        if (id == R.id.action_settings)
+        {
+            Intent intent=new Intent(getActivity(),SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -80,9 +100,14 @@ public class MainActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-       gridView =  (GridView) rootView.findViewById(R.id.gridView);
+        gridView =  (GridView) rootView.findViewById(R.id.gridView);
         String[] strings;
+
+
+        //updating the movie for the first time ..........
         updateMovie();
+
+
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -114,10 +139,7 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    private void updateMovie() {
-        FetchMovieData movieTask = new FetchMovieData();
-        movieTask.execute("popular");
-    }
+
 
 
     public class FetchMovieData extends AsyncTask<String, Void,String[] > {
@@ -132,7 +154,7 @@ public class MainActivityFragment extends Fragment {
             final String OWM_LIST = "results";
             final String poster_path = "poster_path";
             final String id = "id";
-            final String adult = "adulth";
+            final String adult = "adult";
             final String overview = "overview";
             final String release_date = "release_date";
             final String popularity = "popularity";
@@ -185,10 +207,7 @@ public class MainActivityFragment extends Fragment {
 
         @Override
         protected String[] doInBackground(String... params) {
-            // These two need to be declared outside the try/catch
-            // so that they can be closed in the finally block.
 
-            // If there's no zip code, there's nothing to look up.  Verify size of params.
             if (params.length == 0) {
                 return null;
             }
